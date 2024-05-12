@@ -52,11 +52,6 @@ function SignUp() {
     }
 
     try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
 
       const { data } = await axios.post(
         "/api/user/new",
@@ -65,7 +60,6 @@ function SignUp() {
           email,
           password,
         },
-        config
       );
 
       toast({

@@ -32,13 +32,11 @@ function SideDrawer() {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
-  const [busy, setBusy] = useState(false);
-  const [AVAILABLE , setAvailable] = useState(false);
 
   const navigate = useNavigate();
   const toast = useToast();
 
-  const {user,setSelectedChat,chats ,setChats} = ChatState();
+  const {user,setSelectedChat,chats ,setChats ,AVAILABLE,setAvailable} = ChatState();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -95,10 +93,16 @@ function SideDrawer() {
 
   useEffect(() => {
       const res = axios.post("api/user/status", { AVAILABLE });
+
   }, [AVAILABLE]);
 
   const availableHandler = () => {
-    setAvailable(prev=>!prev)
+      
+     if(AVAILABLE===false){
+        setAvailable(true);
+     }else{
+        setAvailable(false);
+     }
   };
 
 
@@ -108,12 +112,7 @@ function SideDrawer() {
 
     try {
       setLoadingChat(true);
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
+      
       const { data } = await axios.post("/api/chat", { userId });
     //   console.log(data);
 
